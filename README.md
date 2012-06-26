@@ -18,3 +18,14 @@ With batchify, one request will be used to service all of the concurrent request
   # Now you use batchedFindAll the same as you would the original function:
   batchedFindAll (users) ->
 ```
+
+The wrapped function can have parameters too:
+
+```coffee
+  batchedFindByState = Batchify.wrap(users, 'findByState')
+
+  batchedFindAll 'active', (users) ->
+```
+
+(Batchify uses the parameter values as a hash key, so concurrent calls with different parameters will not conflict)
+
