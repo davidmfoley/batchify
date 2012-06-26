@@ -19,6 +19,8 @@ With batchify, one request will be used to service all of the concurrent request
   batchedFindAll (users) ->
 ```
 
+Batchify invokes users.findAll once and triggers all of the subscribing callbacks when it is finished.
+
 The wrapped function can have parameters too:
 
 ```coffee
