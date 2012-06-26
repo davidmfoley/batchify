@@ -7,7 +7,7 @@ module.exports = class Batchify
     that = this
     return ->
       args = [].splice.call(arguments, 0)
-      key = that.generateKey(args)
+      key = that.generateKey([context, fn].concat(args))
       callback = that.getCallback(args)
 
       if that.map[key]
