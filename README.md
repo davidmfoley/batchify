@@ -1,34 +1,29 @@
 [![Build Status](https://travis-ci.org/davidmfoley/batchify.svg)](https://travis-ci.org/davidmfoley/batchify)
 # Batchify
 
-Batches calls to a particular resource (such as a database or network) so that, rather than making the call multiple times, a single call is made and all callbacks are triggered when it completes.
+In some situations, many identical operations can occur in a short period of time, causing performance issues.
 
-For example, let's say that we have the following code:
+Batchify wraps a function so that when it is invoked with identical arguments multiple times while in progress, it will only be invoked once, and all callbacks will be notified when it completes.
 
-```coffee
-  users.findAll (users) ->
+```javascript
+  users.findAll(function(err, users) {
     # do something with each user
+  });
 ```
 
 If there are many concurrent requests that need to look up all of the users, each one will take time and resources to service.
 
 With batchify, one request will be used to service all of the concurrent requests:
-```coffee
-  batchedFindAll = Batchify.wrap(users, 'findAll')
+```javascript
+  var batchedFindAll = Batchify.wrap(users, 'findAll');
 
   # Now you use batchedFindAll the same as you would the original function:
-  batchedFindAll (users) ->
+  batchedFindAll(function(err, users) { ... });
 ```
 
 Batchify invokes users.findAll once and triggers all of the subscribing callbacks when it is finished.
 
-The wrapped function can have parameters too:
-
-```coffee
-  batchedFindByState = Batchify.wrap(users, 'findByState')
-
-  batchedFindAll 'active', (users) ->
-```
+The wrapped function can have parameters too.
 
 (Batchify uses the parameter values as a hash key, so concurrent calls with different parameters will not conflict)
 
