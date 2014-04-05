@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/davidmfoley/batchify.svg)](https://travis-ci.org/davidmfoley/batchify)
 # Batchify
 
 Batches calls to a particular resource (such as a database or network) so that, rather than making the call multiple times, a single call is made and all callbacks are triggered when it completes.
